@@ -1,0 +1,15 @@
+{
+  "importOrder": [
+    "^(client-only|server-only)$",
+    "<THIRD_PARTY_MODULES>",
+    "^(@/app/(.*))|(@/styles/(.*))$",
+    "^@/components/(.*)$",
+    "^@/server/(.*)$",
+    "^@/lib/(.*)$",
+    "^@/assets/(.*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
+  "importOrderSortSpecifiers": true,
+  "plugins": ["@trivago/prettier-plugin-sort-imports"]
+}
