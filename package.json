@@ -11,7 +11,10 @@
     "start": "node dist/app.js",
     "lint": "eslint .",
     "format": "prettier .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:docker": "docker build -t gtd/leaderboards -f Dockerfile .",
+    "start:docker": "docker run --name gtd-leaderboards -p 3000:3000 --mount type=bind,source=\"/$(pwd)\"/.env,target=/app/.env --rm gtd/leaderboards",
+    "push:docker": "docker buildx build --platform linux/amd64,linux/arm64 --provenance=mode=max --sbom=true -f Dockerfile --push -t devpintugtd/gtd-leaderboards:latest ."
   },
   "keywords": [],
   "author": "",
@@ -19,6 +22,9 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "google-auth-library": "^9.9.0",
+    "google-spreadsheet": "^4.1.1",
+    "morgan": "^1.10.0",
     "telegraf": "^4.16.3"
   },
   "devDependencies": {
@@ -26,6 +32,7 @@
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@tsconfig/node20": "^20.1.4",
     "@types/express": "^4.17.21",
+    "@types/morgan": "^1.9.9",
     "eslint": "^9.2.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.2",
