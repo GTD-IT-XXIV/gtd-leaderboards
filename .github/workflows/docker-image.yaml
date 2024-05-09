@@ -45,7 +45,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          file: ./docker/production/Dockerfile
+          file: ./Dockerfile
           context: .
           provenance: true
           sbom: true
