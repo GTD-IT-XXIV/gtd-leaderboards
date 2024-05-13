@@ -3,6 +3,10 @@
 ## Table of Content
 
 - [Project Setup](#project-setup)
+  - [Prerequisites](#prerequisites)
+  - [Setting Up](#setting-up)
+  - [Additional Tools](#additional-tools)
+    - [Prisma Studio](#prisma-studio)
 
 ## Project Setup
 
@@ -31,7 +35,7 @@ corepack enable pnpm
 
 4. Install Docker. Installation: [macOS](https://docs.docker.com/desktop/install/mac-install/), [Linux](https://docs.docker.com/desktop/install/linux-install/), [Windows](https://docs.docker.com/desktop/install/windows-install/).
 
-5. Install ngrok. Installation: [ngrok Quickstart](https://ngrok.com/docs/getting-started/)
+5. Install ngrok. Installation: [ngrok Quickstart](https://ngrok.com/docs/getting-started/).
 
 ### Setting Up
 
