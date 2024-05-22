@@ -6,7 +6,6 @@ import { HousePoints, OgPoints } from "../utils/types.js";
 
 const leaderboardsRouter = Router();
 
-// Initialize auth - see https://theoephraim.github.io/node-google-spreadsheet/#/guides/authentication
 const serviceAccountAuth = new JWT({
   email: process.env.GOOGLE_CLIENT_EMAIL,
   key: process.env.GOOGLE_PRIVATE_KEY,
@@ -20,34 +19,26 @@ const doc = new GoogleSpreadsheet(
 
 leaderboardsRouter.get("/", async (req, res) => {
   try {
-    await doc.loadInfo(); // loads document properties and worksheets
+    await doc.loadInfo();
     const sheet1 = doc.sheetsByTitle["Day 1"];
-    await sheet1.loadHeaderRow(2); // set row 2 for header values
+    await sheet1.loadHeaderRow(2);
     const rows1 = await sheet1.getRows({ limit: 10 });
 
-    const OG: OgPoints = Array.from({ length: 8 }, () => ({
-      number: "",
-      points: 0,
+    const OG: OgPoints = rows1.slice(0, 8).map((row) => ({
+      number: row.get("OG"),
+      points: +row.get("OG Points"),
     }));
-    for (let i = 0; i < 8; i++) {
-      OG[i].number = rows1[i].get("OG");
-      OG[i].points = rows1[i].get("OG Points");
-    }
 
-    const House: HousePoints = Array.from({ length: 4 }, () => ({
-      name: "",
-      points: 0,
-    }));
-    for (let i = 0; i < 4; i++) {
-      House[i].name = rows1[i * 2].get("House");
-      House[i].points = rows1[i * 2].get("House Points");
-    }
+    const House: HousePoints = rows1
+      .filter((_, index) => index % 2 === 0)
+      .slice(0, 4)
+      .map((row) => ({
+        name: row.get("House"),
+        points: +row.get("House Points"),
+      }));
 
-    OG.sort((a, b) => b.points - a.points);
-    House.sort((a, b) => b.points - a.points);
-
-    const top3OG = OG.slice(0, 3);
-    const topHouse = House[0];
+    const top3OG = OG.sort((a, b) => b.points - a.points).slice(0, 3);
+    const topHouse = House.sort((a, b) => b.points - a.points)[0];
 
     res.status(200).json({ top3OG, topHouse });
   } catch (error) {
