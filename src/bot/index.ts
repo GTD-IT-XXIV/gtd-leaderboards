@@ -13,7 +13,9 @@ bot.hears("hi", (ctx) => ctx.reply("Hello there"));
 // 'announce' command to fetch and display leaderboard data
 bot.command("announce", async (ctx) => {
   try {
-    const response = await axios.get("http://localhost:8080/leaderboards");
+    const response = await axios.get(
+      `http://localhost:${env.PORT}/leaderboards`,
+    );
     const { top3OG, topHouse } = response.data;
 
     let message = `Top 3 OGs:\n`;

@@ -2,6 +2,7 @@ import { Router } from "express";
 import { JWT } from "google-auth-library";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 
+import { env } from "../utils/env.js";
 import { HousePoints, OgPoints } from "../utils/types.js";
 
 const leaderboardsRouter = Router();
@@ -12,10 +13,7 @@ const serviceAccountAuth = new JWT({
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
-const doc = new GoogleSpreadsheet(
-  "1m-Diq4-lxi4upWPMQfdezh9vLfEucD-f2uCOa3BUA-E",
-  serviceAccountAuth,
-);
+const doc = new GoogleSpreadsheet(env.SHEETS_ID, serviceAccountAuth);
 
 leaderboardsRouter.get("/", async (req, res) => {
   try {
