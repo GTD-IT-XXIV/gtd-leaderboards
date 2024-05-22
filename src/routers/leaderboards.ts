@@ -20,7 +20,7 @@ const doc = new GoogleSpreadsheet(
 leaderboardsRouter.get("/", async (req, res) => {
   try {
     await doc.loadInfo();
-    const sheet1 = doc.sheetsByTitle["Day 1"];
+    const sheet1 = doc.sheetsByTitle["" + req.query.date];
     await sheet1.loadHeaderRow(2);
     const rows1 = await sheet1.getRows({ limit: 10 });
 
