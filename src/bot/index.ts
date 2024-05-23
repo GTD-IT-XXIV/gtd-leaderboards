@@ -1,7 +1,7 @@
-import axios from "axios";
 import { Telegraf } from "telegraf";
 
 import { env } from "../utils/env.js";
+import { getLeaderboardData } from "../utils/helpers.js";
 import { OgPoint } from "../utils/types.js";
 
 const bot = new Telegraf(env.BOT_TOKEN);
@@ -13,8 +13,8 @@ bot.hears("hi", (ctx) => ctx.reply("Hello there"));
 // 'announce' command to fetch and display leaderboard data
 bot.command("announce", async (ctx) => {
   try {
-    const response = await axios.get("http://localhost:8080/leaderboards");
-    const { top3OG, topHouse } = response.data;
+    const response = await getLeaderboardData();
+    const { top3OG, topHouse } = response;
 
     let message = `Top 3 OGs:\n`;
     top3OG.forEach((og: OgPoint, index: number) => {
