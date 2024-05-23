@@ -1,7 +1,7 @@
-import axios from "axios";
 import { Telegraf } from "telegraf";
 
 import { env } from "../utils/env.js";
+import { getLeaderboardData } from "../utils/helpers.js";
 import { OgPoint } from "../utils/types.js";
 
 const bot = new Telegraf(env.BOT_TOKEN);

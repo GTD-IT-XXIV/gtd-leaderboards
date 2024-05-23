@@ -5,8 +5,6 @@
 - [Project Setup](#project-setup)
   - [Prerequisites](#prerequisites)
   - [Setting Up](#setting-up)
-  - [Additional Tools](#additional-tools)
-    - [Prisma Studio](#prisma-studio)
 
 ## Project Setup
 
@@ -75,14 +73,4 @@ ngrok http 8080
 
 ```bash
 pnpm dev
-```
-
-### Additional Tools
-
-#### Prisma Studio
-
-See development database contents:
-
-```bash
-pnpm db:studio
 ```
