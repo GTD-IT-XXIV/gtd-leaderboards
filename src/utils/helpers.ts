@@ -2,21 +2,20 @@ import { JWT } from "google-auth-library";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 
 import { HousePoints, OgPoints } from "../utils/types.js";
+import { env } from "./env.js";
 
 const serviceAccountAuth = new JWT({
-  email: process.env.GOOGLE_CLIENT_EMAIL,
-  key: process.env.GOOGLE_PRIVATE_KEY,
+  email: env.GOOGLE_CLIENT_EMAIL,
+  key: env.GOOGLE_PRIVATE_KEY,
   scopes: ["https://www.googleapis.com/auth/spreadsheets"],
 });
 
-const doc = new GoogleSpreadsheet(
-  "1m-Diq4-lxi4upWPMQfdezh9vLfEucD-f2uCOa3BUA-E",
-  serviceAccountAuth,
-);
+const doc = new GoogleSpreadsheet(env.SHEETS_ID, serviceAccountAuth);
 
-export async function getLeaderboardData() {
+export async function getLeaderboardData(day?: number) {
   await doc.loadInfo();
-  const sheet1 = doc.sheetsByTitle["Day 1"];
+  const sheet1 =
+    doc.sheetsByTitle[!!day && day >= 1 && day <= 3 ? `Day ${day}` : "Total"];
   await sheet1.loadHeaderRow(2);
   const rows1 = await sheet1.getRows({ limit: 10 });
 
