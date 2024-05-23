@@ -18,23 +18,22 @@ bot.command("announce", async (ctx) => {
     ctx.reply("Invalid password.");
     return;
   } else if (input.length >= 3) {
-    let inputDate = "inputdate";
+    let inputDay: number | undefined;
     if (input[2].toLowerCase() === "day") {
-      inputDate = "Day " + input[3];
+      inputDay = Number(input[3]);
     } else if (input[2].toLowerCase() === "total") {
-      inputDate = "Total";
+      // undefined means total leaderboard points
+      inputDay = undefined;
     }
     try {
-      const response = await axios.get("http://localhost:8080/leaderboards", {
-        params: { date: inputDate },
-      });
-      const { top3OG, topHouse } = response.data;
+      const response = await getLeaderboardData(inputDay);
+      const { top3OG, topHouse } = response;
 
       let message = ``;
-      if (inputDate === "Total") {
+      if (inputDay === undefined) {
         message += `Total Leaderboard so far:\n\n`;
       } else {
-        message += `Leaderboard for ${inputDate}:\n\n`;
+        message += `Leaderboard for Day ${inputDay}:\n\n`;
       }
       message += `Top 3 OGs:\n`;
       top3OG.forEach((og: OgPoint, index: number) => {
