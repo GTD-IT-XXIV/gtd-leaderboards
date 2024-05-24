@@ -10,6 +10,8 @@ export const env = createEnv({
     GOOGLE_CLIENT_EMAIL: z.string(),
     GOOGLE_PRIVATE_KEY: z.string(),
     SHEETS_ID: z.string(),
+    CHANNEL_ID: z.coerce.number(),
+    ANNOUNCEMENT_PASSWORD: z.string(),
   },
   runtimeEnv: process.env,
   emptyStringAsUndefined: true,
