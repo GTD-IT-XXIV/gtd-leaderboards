@@ -3,8 +3,10 @@ import { Telegraf } from "telegraf";
 import { env } from "../utils/env.js";
 import { getPodium } from "../utils/getPodium.js";
 
+// const bot = new Telegraf(env.BOT_TOKEN);
 const bot = new Telegraf(env.BOT_TOKEN);
 const password = env.ANNOUNCEMENT_PASSWORD;
+let cid = env.CHANNEL_ID;
 
 // Placeholder bot behavior
 bot.start((ctx) => ctx.reply("Welcome!"));
@@ -22,7 +24,7 @@ bot.command("announce", async (ctx) => {
 
   try {
     message += await getPodium(input[2]);
-    ctx.telegram.sendMessage(env.CHANNEL_ID, message);
+    ctx.telegram.sendMessage(cid, message);
   } catch (error) {
     ctx.reply("Error making an announcement.\n" + error);
   }
@@ -45,6 +47,21 @@ bot.command("podium", async (ctx) => {
   }
 });
 
-//TODO - Add feature for bot to announce at specific times throughout the day (?)
+// command to update channel id
+bot.command("update", (ctx) => {
+  const input = ctx.message.text.split(" ");
+  if (input.length < 2) {
+    ctx.reply(
+      "/update <password> to update broadcast chat to the current group",
+    );
+    return;
+  }
+  if (input[1] !== `${password}`) {
+    ctx.reply("Invalid password.");
+    return;
+  }
+  cid = Number(ctx.message.chat.id);
+  ctx.reply(`Channel ID updated to ${env.CHANNEL_ID}`);
+});
 
 export default bot;
