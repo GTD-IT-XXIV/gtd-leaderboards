@@ -1,5 +1,6 @@
 import { Telegraf } from "telegraf";
 
+import { descriptions } from "../utils/descriptions.js";
 import { env } from "../utils/env.js";
 import { getPodium } from "../utils/getPodium.js";
 
@@ -8,11 +9,6 @@ const bot = new Telegraf(env.BOT_TOKEN);
 const password = env.ANNOUNCEMENT_PASSWORD;
 let cid = env.CHANNEL_ID;
 
-// Placeholder bot behavior
-bot.start((ctx) => ctx.reply("Welcome!"));
-bot.hears("hi", (ctx) => ctx.reply("Hello there"));
-
-// 'announce' command to fetch and display leaderboard data
 bot.command("announce", async (ctx) => {
   const input = ctx.message.text.split(" ");
   let message = "";
@@ -31,9 +27,11 @@ bot.command("announce", async (ctx) => {
 });
 
 bot.command("help", (ctx) => {
-  ctx.reply(
-    "Welcome to the GTD XXVI Leaderboards Bot!\nEnter one of the available command to start:\n",
-  );
+  let message: string = "";
+  for (const key in descriptions) {
+    message += `${descriptions[key]}\n`;
+  }
+  ctx.reply(message);
 });
 
 bot.command("podium", async (ctx) => {
@@ -49,11 +47,14 @@ bot.command("podium", async (ctx) => {
 
 bot.command("setchannel", async (ctx) => {
   const input = ctx.message.text.split(" ");
+
+  // check if password is correct
   if (input[1] !== `${password}`) {
     ctx.reply("Invalid password.");
     return;
   }
 
+  // check if bot has permission to delete messages
   const member = await ctx.getChatAdministrators();
   const admin = member.find((member) => member.user.id === env.BOT_ID);
   if (
