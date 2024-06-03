@@ -52,6 +52,12 @@ bot.command("announce", async (ctx) => {
   }
 });
 
+bot.command("help", (ctx) => {
+  ctx.reply(
+    "Welcome to the GTD XXVI Leaderboards Bot!\nEnter one of the available command to start:\n",
+  );
+});
+
 //TODO - Add feature for bot to announce at specific times throughout the day (?)
 
 export default bot;
