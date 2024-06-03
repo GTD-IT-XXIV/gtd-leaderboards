@@ -50,18 +50,13 @@ bot.command("podium", async (ctx) => {
 // command to update channel id
 bot.command("update", (ctx) => {
   const input = ctx.message.text.split(" ");
-  if (input.length < 2) {
-    ctx.reply(
-      "/update <password> to update broadcast chat to the current group",
-    );
-    return;
-  }
   if (input[1] !== `${password}`) {
     ctx.reply("Invalid password.");
     return;
   }
   cid = Number(ctx.message.chat.id);
-  ctx.reply(`Channel ID updated to ${env.CHANNEL_ID}`);
+  ctx.deleteMessage(ctx.message.message_id);
+  ctx.reply(`Broadcast chat successfully set to current chat.`);
 });
 
 export default bot;
