@@ -47,8 +47,7 @@ bot.command("podium", async (ctx) => {
   }
 });
 
-// command to update channel id
-bot.command("update", async (ctx) => {
+bot.command("setchannel", async (ctx) => {
   const input = ctx.message.text.split(" ");
   if (input[1] !== `${password}`) {
     ctx.reply("Invalid password.");
