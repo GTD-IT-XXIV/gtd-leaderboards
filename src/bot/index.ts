@@ -48,12 +48,24 @@ bot.command("podium", async (ctx) => {
 });
 
 // command to update channel id
-bot.command("update", (ctx) => {
+bot.command("update", async (ctx) => {
   const input = ctx.message.text.split(" ");
   if (input[1] !== `${password}`) {
     ctx.reply("Invalid password.");
     return;
   }
+
+  const member = await ctx.getChatAdministrators();
+  const admin = member.find((member) => member.user.id === env.BOT_ID);
+  if (
+    admin &&
+    "can_delete_messages" in admin &&
+    admin.can_delete_messages === false
+  ) {
+    ctx.reply("Error: Please grant bot permission to delete messages.");
+    return;
+  }
+
   cid = Number(ctx.message.chat.id);
   ctx.deleteMessage(ctx.message.message_id);
   ctx.reply(`Broadcast chat successfully set to current chat.`);
