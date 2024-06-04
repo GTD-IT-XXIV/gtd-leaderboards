@@ -4,7 +4,6 @@ import { descriptions } from "../utils/descriptions.js";
 import { env } from "../utils/env.js";
 import { getPodium } from "../utils/getPodium.js";
 
-// const bot = new Telegraf(env.BOT_TOKEN);
 const bot = new Telegraf(env.BOT_TOKEN);
 const password = env.ANNOUNCEMENT_PASSWORD;
 let cid = env.CHANNEL_ID;

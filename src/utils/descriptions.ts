@@ -1,4 +1,4 @@
-export const descriptions: { [key: string]: string } = {
+export const descriptions: Record<string, string> = {
   announce:
     "/announce <password> <optional: 1-3> Announce the current leaderboard standings. If a number is provided, announce the standings for that day.",
   podium:
