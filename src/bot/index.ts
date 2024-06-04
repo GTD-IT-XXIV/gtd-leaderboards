@@ -1,57 +1,73 @@
 import { Telegraf } from "telegraf";
 
+import { descriptions } from "../utils/descriptions.js";
 import { env } from "../utils/env.js";
-import { getLeaderboardData } from "../utils/helpers.js";
-import { OgPoint } from "../utils/types.js";
+import { getPodium } from "../utils/getPodium.js";
 
 const bot = new Telegraf(env.BOT_TOKEN);
 const password = env.ANNOUNCEMENT_PASSWORD;
+let cid = env.CHANNEL_ID;
 
-// Placeholder bot behavior
-bot.start((ctx) => ctx.reply("Welcome!"));
-bot.hears("hi", (ctx) => ctx.reply("Hello there"));
+bot.command("help", (ctx) => {
+  let message: string = "";
+  for (const key in descriptions) {
+    message += `${descriptions[key]}\n`;
+  }
+  ctx.reply(message);
+});
 
-// 'announce' command to fetch and display leaderboard data
 bot.command("announce", async (ctx) => {
   const input = ctx.message.text.split(" ");
+  let message = "";
+
   if (input[1] !== `${password}`) {
     ctx.reply("Invalid password.");
     return;
-  } else if (input.length >= 3) {
-    let inputDay: number | undefined;
-    if (input[2].toLowerCase() === "day") {
-      inputDay = Number(input[3]);
-    } else if (input[2].toLowerCase() === "total") {
-      // undefined means total leaderboard points
-      inputDay = undefined;
-    }
-    try {
-      const response = await getLeaderboardData(inputDay);
-      const { top3OG, topHouse } = response;
+  }
 
-      let message = ``;
-      if (inputDay === undefined) {
-        message += `Total Leaderboard so far:\n\n`;
-      } else {
-        message += `Leaderboard for Day ${inputDay}:\n\n`;
-      }
-      message += `Top 3 OGs:\n`;
-      top3OG.forEach((og: OgPoint, index: number) => {
-        message += `${index + 1}. OG${og.number}, Points: ${og.points}\n`;
-      });
-      message += `\nTop House:\n${topHouse.name}, Points: ${topHouse.points}`;
-
-      ctx.telegram.sendMessage(env.CHANNEL_ID, message);
-    } catch (error) {
-      console.error(error);
-      ctx.reply("Error fetching leaderboard data.");
-      console.log(input);
-    }
-  } else {
-    console.log(input);
+  try {
+    message += await getPodium(input[2]);
+    ctx.telegram.sendMessage(cid, message, { parse_mode: "Markdown" });
+  } catch (error) {
+    ctx.reply("Error making an announcement.\n" + error);
   }
 });
 
-//TODO - Add feature for bot to announce at specific times throughout the day (?)
+bot.command("podium", async (ctx) => {
+  const input = ctx.message.text.split(" ");
+  let message = "";
+  try {
+    message += await getPodium(input[1]);
+    ctx.reply(message, { parse_mode: "Markdown" });
+  } catch (error) {
+    ctx.reply("Error fetching podium.\n" + error);
+  }
+});
+
+bot.command("setchannel", async (ctx) => {
+  const input = ctx.message.text.split(" ");
+
+  // check if password is correct
+  if (input[1] !== `${password}`) {
+    ctx.reply("Invalid password.");
+    return;
+  }
+
+  // check if bot has permission to delete messages
+  const member = await ctx.getChatAdministrators();
+  const admin = member.find((member) => member.user.id === env.BOT_ID);
+  if (
+    admin &&
+    "can_delete_messages" in admin &&
+    admin.can_delete_messages === false
+  ) {
+    ctx.reply("Error: Please grant bot permission to delete messages.");
+    return;
+  }
+
+  cid = Number(ctx.message.chat.id);
+  ctx.deleteMessage(ctx.message.message_id);
+  ctx.reply(`Broadcast chat successfully set to current chat.`);
+});
 
 export default bot;

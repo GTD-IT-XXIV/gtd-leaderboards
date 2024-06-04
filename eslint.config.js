@@ -5,6 +5,6 @@ export default tseslint.config(
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    ignores: ["pnpm-lock.yaml"],
+    ignores: ["dist/", "pnpm-lock.yaml"],
   },
 );
