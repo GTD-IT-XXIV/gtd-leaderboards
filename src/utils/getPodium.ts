@@ -19,7 +19,7 @@ export async function getPodium(input: string) {
       message += `*[DAY ${inputDay} LEADERBOARDS]*\n\n`;
     }
 
-    const ogEmojis: { [key: string]: string } = {
+    const ogEmojis: Record<string, string> = {
       Wanderer: "🧭",
       Timeturner: "⏳",
       Changeling: "🪞",
@@ -30,7 +30,7 @@ export async function getPodium(input: string) {
     message += `🌟 *${topHouse.name}* (${topHouse.points} points) `;
     message += ogEmojis[topHouse.name] + `\n\n`;
 
-    const rankEmojis: { [key: number]: string } = {
+    const rankEmojis: Record<string, string> = {
       1: "🥇",
       2: "🥈",
       3: "🥉",
