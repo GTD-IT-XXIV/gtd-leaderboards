@@ -14,15 +14,32 @@ export async function getPodium(input: string) {
 
     let message = ``;
     if (inputDay === 0) {
-      message += `Total Leaderboard so far:\n\n`;
+      message += `*[OVERALL LEADERBOARDS]*\n\n`;
     } else {
-      message += `Leaderboard for Day ${inputDay}:\n\n`;
+      message += `*[DAY ${inputDay} LEADERBOARDS]*\n\n`;
     }
-    message += `Top 3 OGs:\n`;
+
+    const ogEmojis: { [key: string]: string } = {
+      Wanderer: "🧭",
+      Timeturner: "⏳",
+      Changeling: "🪞",
+      Healer: "🧪",
+    };
+
+    message += `*Winning House*\n`;
+    message += `🌟 *${topHouse.name}* (${topHouse.points} points) `;
+    message += ogEmojis[topHouse.name] + `\n\n`;
+
+    const rankEmojis: { [key: number]: string } = {
+      1: "🥇",
+      2: "🥈",
+      3: "🥉",
+    };
+
+    message += `*Top 3 OGs:*\n`;
     top3OG.forEach((og: OgPoint, index: number) => {
-      message += `${index + 1}. OG${og.number}, Points: ${og.points}\n`;
+      message += `${rankEmojis[index + 1]} *OG${og.number}* (${og.points} points)\n`;
     });
-    message += `\nTop House:\n${topHouse.name}, Points: ${topHouse.points}`;
     response = message;
   } catch (error) {
     console.error(error);

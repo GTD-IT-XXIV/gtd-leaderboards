@@ -9,6 +9,14 @@ const bot = new Telegraf(env.BOT_TOKEN);
 const password = env.ANNOUNCEMENT_PASSWORD;
 let cid = env.CHANNEL_ID;
 
+bot.command("help", (ctx) => {
+  let message: string = "";
+  for (const key in descriptions) {
+    message += `${descriptions[key]}\n`;
+  }
+  ctx.reply(message);
+});
+
 bot.command("announce", async (ctx) => {
   const input = ctx.message.text.split(" ");
   let message = "";
@@ -20,18 +28,10 @@ bot.command("announce", async (ctx) => {
 
   try {
     message += await getPodium(input[2]);
-    ctx.telegram.sendMessage(cid, message);
+    ctx.telegram.sendMessage(cid, message, { parse_mode: "Markdown" });
   } catch (error) {
     ctx.reply("Error making an announcement.\n" + error);
   }
-});
-
-bot.command("help", (ctx) => {
-  let message: string = "";
-  for (const key in descriptions) {
-    message += `${descriptions[key]}\n`;
-  }
-  ctx.reply(message);
 });
 
 bot.command("podium", async (ctx) => {
@@ -39,7 +39,7 @@ bot.command("podium", async (ctx) => {
   let message = "";
   try {
     message += await getPodium(input[1]);
-    ctx.reply(message);
+    ctx.reply(message, { parse_mode: "Markdown" });
   } catch (error) {
     ctx.reply("Error fetching podium.\n" + error);
   }
