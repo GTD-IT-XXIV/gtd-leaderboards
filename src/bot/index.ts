@@ -36,9 +36,12 @@ bot.command("announce", async (ctx) => {
 bot.command("podium", async (ctx) => {
   const input = ctx.message.text.split(" ");
   let message = "";
+
   try {
     message += await getPodium(input[1]);
-    ctx.reply(message, { parse_mode: "Markdown" });
+    ctx.telegram.sendMessage(ctx.message.from.id, message, {
+      parse_mode: "Markdown",
+    });
   } catch (error) {
     ctx.reply("Error fetching podium.\n" + error);
   }
