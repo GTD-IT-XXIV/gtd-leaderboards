@@ -1,4 +1,4 @@
-import { getLeaderboardData } from "./helpers.js";
+import { getLeaderboardDataByDay } from "./helpers.js";
 import { OgPoint } from "./types.js";
 
 export async function getPodium(input: string) {
@@ -9,7 +9,7 @@ export async function getPodium(input: string) {
     inputDay = 0;
   }
   try {
-    const data = await getLeaderboardData(inputDay);
+    const data = await getLeaderboardDataByDay(inputDay);
     const { top3OG, topHouse } = data;
 
     let message = ``;
