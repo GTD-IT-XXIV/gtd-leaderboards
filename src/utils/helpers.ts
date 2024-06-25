@@ -48,6 +48,7 @@ export async function getLeaderboardData() {
   for (let day = 1; day <= 3; day++) {
     allData[day] = await getLeaderboardDataByDay(day);
   }
+  allData.overall = await getLeaderboardDataByDay();
   return allData;
 }
 
@@ -82,5 +83,6 @@ export async function getAllLeaderboardData() {
   for (let day = 1; day <= 3; day++) {
     allData[day] = await getAllLeaderboardDataByDay(day);
   }
+  allData.overall = await getAllLeaderboardDataByDay();
   return allData;
 }

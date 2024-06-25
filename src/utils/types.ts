@@ -13,9 +13,9 @@ export type OgPoints = OgPoint[];
 export type HousePoints = HousePoint[];
 
 export type TopLeaderboardData = {
-  [key: number]: { top3OG: OgPoint[]; topHouse: HousePoint };
+  [key: string]: { top3OG: OgPoint[]; topHouse: HousePoint };
 };
 
 export type AllLeaderboardData = {
-  [key: number]: { topOG: OgPoints; topHouse: HousePoints };
+  [key: string]: { topOG: OgPoints; topHouse: HousePoints };
 };
