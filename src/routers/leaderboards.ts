@@ -10,11 +10,11 @@ import {
 
 const leaderboardsRouter = Router();
 
-leaderboardsRouter.get("/all", async (req, res) => {
+leaderboardsRouter.get("/all", async (_req, res) => {
   try {
     const data = await getAllLeaderboardData();
     res.status(200).json(data);
-  } catch (error) {
+  } catch (_err) {
     res.status(500).send("Error fetching data from spreadsheet");
   }
 });
@@ -25,7 +25,7 @@ leaderboardsRouter.get("/all/:day", async (req, res) => {
     const day = dayParseResult.success ? dayParseResult.data : undefined;
     const data = await getAllLeaderboardDataByDay(day);
     res.status(200).json(data);
-  } catch (error) {
+  } catch (_err) {
     res.status(500).send("Error fetching data from spreadsheet");
   }
 });
@@ -36,16 +36,16 @@ leaderboardsRouter.get("/:day", async (req, res) => {
     const day = dayParseResult.success ? dayParseResult.data : undefined;
     const data = await getLeaderboardDataByDay(day);
     res.status(200).json(data);
-  } catch (error) {
+  } catch (_err) {
     res.status(500).send("Error fetching data from spreadsheet");
   }
 });
 
-leaderboardsRouter.get("/", async (req, res) => {
+leaderboardsRouter.get("/", async (_req, res) => {
   try {
     const data = await getLeaderboardData();
     res.status(200).json(data);
-  } catch (error) {
+  } catch (_err) {
     res.status(500).send("Error fetching data from spreadsheet");
   }
 });

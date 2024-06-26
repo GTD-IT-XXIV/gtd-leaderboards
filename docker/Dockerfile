@@ -1,4 +1,4 @@
-FROM node:20.13.1-bullseye AS base
+FROM node:20.15.0-bullseye AS base
 
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
@@ -24,13 +24,14 @@ WORKDIR /app
 
 COPY --from=builder --chown=nonroot:nonroot /app/node_modules ./node_modules
 COPY --from=builder --chown=nonroot:nonroot /app/dist ./dist
+COPY package.json ./
 
 USER nonroot
 
-EXPOSE 3000
+EXPOSE 8080
 
 ENV NODE_ENV production
-ENV PORT 3000
+ENV PORT 8080
 ENV HOSTNAME "0.0.0.0"
 
 CMD ["dist/app.js"]
