@@ -52,25 +52,13 @@ pnpm install
 cp .env.example .env
 ```
 
-3. Start the database:
-
-```bash
-pnpm db:start
-```
-
-4. Run the migrations:
-
-```bash
-pnpm prisma migrate dev
-```
-
-5. Run ngrok to expose the development server to the internet:
+3. Run ngrok to expose the development server to the internet (make an ngrok account [here](https://dashboard.ngrok.com/signup)):
 
 ```bash
 ngrok http 8080
 ```
 
-6. Copy the ngrok URL to the `WEBHOOK_DOMAIN` environment variable in `.env`.
+4. Copy the ngrok URL to the `WEBHOOK_DOMAIN` environment variable in `.env`.
 
 5. Run the development server:
 
