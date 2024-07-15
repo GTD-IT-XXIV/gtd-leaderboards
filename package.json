@@ -35,25 +35,25 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@eslint/js": "^9.5.0",
+    "@eslint/js": "^9.7.0",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/cors": "^2.8.17",
     "@types/eslint__js": "^8.42.3",
     "@types/express": "^4.17.21",
     "@types/morgan": "^1.9.9",
-    "eslint": "^9.5.0",
-    "globals": "^15.6.0",
+    "eslint": "^9.7.0",
+    "globals": "^15.8.0",
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7",
     "nodemon": "^3.1.4",
-    "prettier": "^3.3.2",
+    "prettier": "^3.3.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.2",
+    "typescript": "^5.5.3",
     "typescript-eslint": "8.0.0-alpha.33"
   },
   "engines": {
     "node": ">=20",
     "pnpm": ">=9"
   },
-  "packageManager": "pnpm@9.1.0"
+  "packageManager": "pnpm@9.5.0"
 }
