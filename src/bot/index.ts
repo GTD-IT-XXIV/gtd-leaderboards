@@ -46,6 +46,14 @@ bot.command("podium", async (ctx) => {
   }
 });
 
+bot.command("getchannel", async (ctx) => {
+  ctx.deleteMessage(ctx.message.message_id);
+  const reply = await ctx.reply(`Current channel ID: ${ctx.message.chat.id}`);
+  setTimeout(() => {
+    ctx.deleteMessage(reply.message_id);
+  }, 3000);
+});
+
 bot.command("setchannel", async (ctx) => {
   const input = ctx.message.text.split(" ");
 
@@ -67,9 +75,14 @@ bot.command("setchannel", async (ctx) => {
     return;
   }
 
-  cid = Number(ctx.message.chat.id);
+  cid = Number(input[2] ?? ctx.message.chat.id);
   ctx.deleteMessage(ctx.message.message_id);
-  ctx.reply(`Broadcast chat successfully set to current chat.`);
+  const reply = await ctx.reply(
+    `Broadcast chat successfully set to current chat.`,
+  );
+  setTimeout(() => {
+    ctx.deleteMessage(reply.message_id);
+  }, 3000);
 });
 
 export default bot;
