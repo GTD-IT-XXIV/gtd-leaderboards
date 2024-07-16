@@ -63,16 +63,20 @@ bot.command("setchannel", async (ctx) => {
     return;
   }
 
-  // check if bot has permission to delete messages
-  const member = await ctx.getChatAdministrators();
-  const admin = member.find((member) => member.user.id === env.BOT_ID);
-  if (
-    admin &&
-    "can_delete_messages" in admin &&
-    admin.can_delete_messages === false
-  ) {
-    ctx.reply("Error: Please grant bot permission to delete messages.");
-    return;
+  try {
+    // check if bot has permission to delete messages
+    const member = await ctx.getChatAdministrators();
+    const admin = member.find((member) => member.user.id === env.BOT_ID);
+    if (
+      !admin ||
+      !("can_delete_messages" in admin) ||
+      !admin.can_delete_messages
+    ) {
+      ctx.reply("Error: Please grant bot permission to delete messages.");
+      return;
+    }
+  } catch (error) {
+    console.warn("Bot is in private chat, skipping permission check.");
   }
 
   cid = Number(input[2] ?? ctx.message.chat.id);
