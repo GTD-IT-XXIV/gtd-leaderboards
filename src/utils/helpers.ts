@@ -1,6 +1,7 @@
 import { JWT } from "google-auth-library";
 import { GoogleSpreadsheet } from "google-spreadsheet";
 
+import { descriptions } from "./descriptions.js";
 import { env } from "./env.js";
 import {
   AllLeaderboardData,
@@ -134,4 +135,12 @@ export async function getPodium(input: string) {
   }
 
   return response;
+}
+
+export function getHelp() {
+  let message: string = "";
+  for (const key in descriptions) {
+    message += `${descriptions[key]}\n`;
+  }
+  return message;
 }

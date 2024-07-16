@@ -1,19 +1,18 @@
 import { Telegraf } from "telegraf";
 
-import { descriptions } from "../utils/descriptions.js";
 import { env } from "../utils/env.js";
-import { getPodium } from "../utils/helpers.js";
+import { getHelp, getPodium } from "../utils/helpers.js";
 
 const bot = new Telegraf(env.BOT_TOKEN);
 const password = env.ANNOUNCEMENT_PASSWORD;
 let cid = env.CHANNEL_ID;
 
+bot.start((ctx) => {
+  ctx.reply(getHelp());
+});
+
 bot.command("help", (ctx) => {
-  let message: string = "";
-  for (const key in descriptions) {
-    message += `${descriptions[key]}\n`;
-  }
-  ctx.reply(message);
+  ctx.reply(getHelp());
 });
 
 bot.command("announce", async (ctx) => {
